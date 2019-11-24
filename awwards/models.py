@@ -30,7 +30,7 @@ class Profile(models.Model):
 
 
 class Project(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to =)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=2500)
     link = models.CharField(max_length=2000)
