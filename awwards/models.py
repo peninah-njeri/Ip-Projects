@@ -28,3 +28,16 @@ class Project(models.Model):
         return self.title
 
 
+class Rate(models.Model):
+    design = models.IntegerField()
+    usability=models.IntegerField()
+    content=models.IntegerField()
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    Project=models.ForeignKey(Project)
+    total= models.IntegerField()
+    avg=models.IntegerField(null=True)
+    comment = models.TextField(null=True)
+
+    def __str__(self):
+        return self.comment
+
