@@ -16,6 +16,18 @@ class Profile(models.Model):
     def __str__(self):
         return self.username
 
+    def update_profile(self):
+
+        ''' Method to update a profile in the database'''
+
+        self.update()
+
+    def delete_profile(self):
+
+        ''' Method to delete a profile from the database'''
+
+        self.delete()
+
 
 class Project(models.Model):
     image = models.ImageField()
