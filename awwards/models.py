@@ -12,3 +12,19 @@ class Profile(models.Model):
     email = models.EmailField()
     phone_number = models.CharField(max_length=255)
     
+
+    def __str__(self):
+        return self.username
+
+
+class Project(models.Model):
+    image = models.ImageField()
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=2500)
+    link = models.CharField(max_length=2000)
+    upload_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
