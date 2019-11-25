@@ -83,3 +83,5 @@ class Rate(models.Model):
     def __str__(self):
         return self.comment
 
+class         
+
