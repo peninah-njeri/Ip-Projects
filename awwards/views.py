@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+import datetime as dt
+from .forms import NewProjectForm,ProfileForm,RateForm
 from .models import Project,Profile,Rate
 # Create your views here.
 
@@ -39,6 +41,24 @@ def edit_profile(request):
     return render(request,'edit_profile.html',locals())
 
 
+
+
+
+def new_project(request):
+    current_user = Profile.objects.get(username__id=request.user.id)
+    if request.method == 'POST':
+        form = NewProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.upload_by = current_user
+            project.save()
+        return redirect('welcome')
+    else:
+        form = NewProjectForm()
+    return render(request, 'new_project.html', {"form": form})
+
+
+
 def project(request,id):
     show_user = request.user
     project = Project.objects.get(id=id)
@@ -52,4 +72,22 @@ def search_results(request):
         searched_projects = Project.search_project(search_term)
         message=f"Search results for: {search_term}"
 
-        return render(request,'search.html',{"message":message,"projects":searched_projects})    
+        return render(request,'search.html',{"message":message,"projects":searched_projects})   
+
+
+def rate_project(request,id):
+    current_user=request.user
+    project=Project.objects.get(id=id)
+    if request.method == 'POST':
+        form = RateForm(request.POST, request.FILES)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.user = current_user
+            rate.project=project
+            rate.total=int(form.cleaned_data['design'])+int(form.cleaned_data['content'])+int(form.cleaned_data['usability'])
+            rate.avg= int(rate.total)/3
+            RateForm.save()
+        return redirect('index')
+    else:
+        form = RateForm()
+    return render(request, 'rate.html',{"form": form, 'proj':project})

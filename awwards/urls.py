@@ -9,6 +9,9 @@ urlpatterns=[
      url(r'^project/(\d+)', views.project, name = 'project'), 
      url(r'^profile/(\d+)', views.profile, name = 'profile'),
      url(r'^search/', views.search_results, name='search_results'),
+     url(r'^accounts/edit-profile/', views.edit_profile, name = 'edit-profile'),
+     url(r'^new/project/', views.new_project, name = 'new-project'),
+     url(r'^rate/(\d+)',views.rate_project,name ='rate'), 
 ]  
 
 if settings.DEBUG:
