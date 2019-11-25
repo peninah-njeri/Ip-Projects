@@ -5,9 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 import datetime as dt
 from .forms import NewProjectForm,ProfileForm,RateForm
 from .models import Project,Profile,Rate
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(login_url='/accounts/login/')
 def index(request):
     projects= Project.objects.all().order_by("-id")
     profiles =Profile.objects.all()
@@ -15,6 +16,7 @@ def index(request):
     rate =Project.objects.all()
     return render(request, 'index.html',{"projects":projects,"profiles":profiles,"current_user":current_user,"rate":rate})
 
+@login_required(login_url='/accounts/login/')
 def profile(request,id):
     user_object = request.user
     current_user = Profile.objects.get(username__id=request.user.id)
@@ -23,7 +25,7 @@ def profile(request,id):
     projects = Project.objects.all()
     return render(request, "profile.html", {"current_user":current_user,"projects":projects,"user":user,"user_object":user_object})
 
-
+@login_required(login_url='/accounts/login/')
 def edit_profile(request):
     current_user=request.user
     user_edit = Profile.objects.get(username__id=current_user.id)
@@ -43,7 +45,7 @@ def edit_profile(request):
 
 
 
-
+@login_required(login_url='/accounts/login/')
 def new_project(request):
     current_user = Profile.objects.get(username__id=request.user.id)
     if request.method == 'POST':
@@ -58,14 +60,14 @@ def new_project(request):
     return render(request, 'new_project.html', {"form": form})
 
 
-
+@login_required(login_url='/accounts/login/')
 def project(request,id):
     show_user = request.user
     project = Project.objects.get(id=id)
   
     return render(request,'project.html',{"project":project,"show_user":show_user})
 
-
+@login_required(login_url='/accounts/login/')
 def search_results(request):
     if 'search' in request.GET and request.GET["search"]:
         search_term = request.GET.get("search")
@@ -74,7 +76,7 @@ def search_results(request):
 
         return render(request,'search.html',{"message":message,"projects":searched_projects})   
 
-
+@login_required(login_url='/accounts/login/')
 def rate_project(request,id):
     current_user=request.user
     project=Project.objects.get(id=id)
