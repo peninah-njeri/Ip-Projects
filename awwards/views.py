@@ -6,6 +6,9 @@ import datetime as dt
 from .forms import NewProjectForm,ProfileForm,RateForm
 from .models import Project,Profile,Rate
 from django.contrib.auth.decorators import login_required
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProjectSerializer,ProfileSerializer
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')
