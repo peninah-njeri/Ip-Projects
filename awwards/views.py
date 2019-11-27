@@ -57,7 +57,7 @@ def new_project(request):
             project = form.save(commit=False)
             project.upload_by = current_user
             project.save()
-        return redirect('welcome')
+        return redirect('index')
     else:
         form = NewProjectForm()
     return render(request, 'new_project.html', {"form": form})
@@ -95,7 +95,7 @@ def rate_project(request,id):
         return redirect('index')
     else:
         form = RateForm()
-    return render(request, 'rate.html',{"form": form, 'proj':project})
+    return render(request, 'rate.html',{"form": form, 'project':project})
 
 
 

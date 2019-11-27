@@ -15,7 +15,7 @@ class Profile(models.Model):
     
 
     def __str__(self):
-        return self.username
+        return f"{self.username}"
 
 
     @receiver(post_save, sender=User)
@@ -48,14 +48,27 @@ class Project(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=2500)
     link = models.CharField(max_length=2000)
-    upload_date = models.DateField(auto_now_add=True,null=True, blank=True)
+    upload_by = models.ForeignKey(Profile,null=True)
     post_date = models.DateTimeField(auto_now_add=True, null=True, blank=True) 
     view_rate=models.IntegerField(null=True)
 
 
     def __str__(self):
-        return self.title
+        return f"{self.title}"
 
+    def save_image(self):
+        '''Method to save an image in the database'''
+        self.save()  
+
+    def update_project(self):
+
+        ''' Method to update a profile in the database'''
+
+        self.update()
+
+    def delete_image(self):
+        ''' Method to delete an image from the database'''
+        self.delete()
 
     @classmethod
     def search_project(cls,search_term):
@@ -82,6 +95,5 @@ class Rate(models.Model):
 
     def __str__(self):
         return self.comment
-
-class         
+         
 
